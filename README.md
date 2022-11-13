@@ -1,24 +1,30 @@
 # Rigid-origami
-A **gym environment** and commandline tool for automating rigid origami crease pattern design generation and imagination. 
-
-![The rigid origami game](/assets/images/method.png)
+A **gym environment and commandline tool** for automating rigid origami crease pattern design. 
 
 > **Note** We provide an introduction to the underlying principles of rigid origami and some practical use cases in our paper [Automating Rigid Origami Design](https://arxiv.com).
 
-We reformulate the rigid-origami problem as a board game. 
+We reformulate the rigid-origami problem as a board game: agents (players) interact with the rigid-origami **gym environment** (board) according to a set of rules which define an origami-specific problem. 
 
-Agents (players) interact with the rigid-origami **gym environment** (board) according to a set of rules which define an origami-specific problem. 
+<figure>
+    <img src="/assets/method.png"
+         alt="The rigid origami game"
+         height="200"
+    />
+</figure>
+
+Figure: *The rigid origami game.*
 
 Our commandline tool comprises a set of agents (or classical search methods and algorithms) for 3D shape approximation, packaging, foldable funiture and more. Whereas the environment is not limited to these particular origami design challenges and agents. 
 
 
 ## Installing
-> **Note:** Before installing the dependencies, it is recommended that you setup a [conda virtual environment](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html).
+> **Note** Before installing the dependencies, it is recommended that you setup a [conda virtual environment](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html).
 
-Setup the conda environment using the rigid-origami/conda_rigid_ori_env.yml package list:
+Setup and activate the conda environment using the rigid-origami/conda_rigid_ori_env.yml package list:
 
 ```
 $ conda create --name=rigid-origami --file=conda_rigid_ori_env.yml
+$ conda activate rigid-origami
 ```
 
 Next install the gym-environment:
@@ -31,7 +37,7 @@ Next install the gym-environment:
 The environment is now all set up.
 
 ## Example
-To play the rigid-origami via commandline simply execute the following:
+To *play* the rigid-origami game via commandline simply execute the following:
 
 ```
 (rigid-origami) $ python main.py --objective=packaging  
@@ -52,4 +58,6 @@ A non-exhaustive list of the basic game settings is given below:
 | **Seed pattern**              | --base              | simple                                      |
 | **Random seed**               | --seed              | 123                                         |
 | **Auto optimize fold angle**  | --optimize-psi      |                                             |
+
+## Components
 
