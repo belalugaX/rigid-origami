@@ -40,7 +40,7 @@ The environment is now all set up.
 To *play* the rigid-origami game via commandline simply execute the following:
 
 ```
-(rigid-origami) $ python main.py --objective=packaging  
+(rigid-origami) $ python main.py --objective=shape-approx --search-algorithm=RDM --num-steps=100000 --board-length=25 --num-symmetries=2 --optimize-psi  
 ```
 
 Adjust the game objective, agent, or any other conditions by setting specific options.
@@ -59,5 +59,49 @@ A non-exhaustive list of the basic game settings is given below:
 | **Random seed**               | --seed              | 123                                         |
 | **Auto optimize fold angle**  | --optimize-psi      |                                             |
 
+> **Note** The action- and configuration space complexity grows exponentially with the board size. On the contrary additional symmetries help reduce the complexity.
+
 ## Components
+
+### Environment
+The gym environment class [RoriEnv](gym-rori/gym_rori/envs/rori_env.py) contains the methods for the agents to interact with.
+
+In essence agents construct graphs of connected [single vertices](gym-rori/single_vertex.py) in the environment, which returns them sparse rewards.
+
+[Rewards](gym-rori/rewarders.py) depend on the set objective.
+
+A game terminates if a terminal state is reached, either by choice of the terminal action of the agent or by violation of a posteriori [rules](#rules).
+
+### Agents
+Agents can be human or artificial. We provide a list of standard search algorithms as artificial agents:
+
+|       Agent               |   Search Algorithm                |
+|   :-----------            |   ---------------:                |
+| [RDM](main.py)            | Uniform Random Search             |
+| [BFTS](gym-rori/bfts.py)  | Breadth First Tree Search         |
+| [DFTS](gym-rori/dfts.py)  | Depth First Tree Search           |
+| [MCTS](gym-rori/mcts.py)  | Monte Carlo Tree Search           |
+| [evolution](main.py)      | Evolutionary Search               |
+| [PPO](main.py)            | Proximal Policy Optimization (RL) |
+
+### Rules
+<a href="#rules"></a>
+[Rules](gym-rori/rules.py) and [symmetry-rules](gym-rori/symmetry_rules.py) are enforced a priori through action masking, constraining the action space of agents.
+
+A game can however reach a non-foldable state. A particular state is foldable if and only if it complies with the following conditions:
+
+1. Faces do not intersect during folding as proven by a [triangle-triangle intersection test](gym-rori/tritri_intsec_check.py).
+2. The corresponding Origami Pattern is rigidly foldable as validated by the [kinematic model](gym-rori/kinematic_model_num.py).
+
+Any violation of the two conditions results in a terminal game state.
+
+### Results
+The episodes (origami patterns) of highest return are documented in the results directory per experiment. For each best episode three files, a *.png* of the corresponding origami graph, folded shape *.obj* and animation *.gif* are stored.
+
+|       Origami Graph (Pattern)                     |   Folded Shape                                    |   Folding Animation
+|   :-----------:                                   |   :---------------:                               |   :---------------: 
+| <img src="assets/chair_pattern.png" width="500"/> | <img src="assets/chair_folded.png" width="500"/>  | <img src="assets/animations/chair.gif" width="500"/>
+
+
+
 
