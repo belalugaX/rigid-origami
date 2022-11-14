@@ -20,14 +20,14 @@ Our commandline tool comprises a set of agents (or classical search methods and 
 ## Installing
 > **Note** Before installing the dependencies, it is recommended that you setup a [conda virtual environment](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html).
 
-Setup and activate the conda environment using the rigid-origami/conda_rigid_ori_env.yml package list:
+Setup and activate the conda environment using the rigid-origami/conda_rigid_ori_env.yml package list.
 
 ```
 $ conda create --name=rigid-origami --file=conda_rigid_ori_env.yml
 $ conda activate rigid-origami
 ```
 
-Next install the gym-environment:
+Next install the gym-environment.
 
 ```
 (rigid-origami) $ cd gym-rori
@@ -37,7 +37,7 @@ Next install the gym-environment:
 The environment is now all set up.
 
 ## Example
-To *play* the rigid-origami game via commandline simply execute the following:
+We *play* the rigid-origami game for shape approximation. 
 
 ```
 (rigid-origami) $ python main.py --objective=shape-approx --search-algorithm=RDM --num-steps=100000 --board-length=25 --num-symmetries=2 --optimize-psi  
@@ -45,7 +45,9 @@ To *play* the rigid-origami game via commandline simply execute the following:
 
 Adjust the game objective, agent, or any other conditions by setting specific options.
 
-A non-exhaustive list of the basic game settings is given below:
+> **Note** You can utilize the environment for different design tasks or objectives. You can add your custom reward function in the [rewarder](gym-rori/rewarders.py).
+
+A non-exhaustive list of the basic game settings is given below.
 
 |  Option                       | Flag                | Value                                       |
 | -------------                 |-------------:       | :-----                                      |
@@ -66,14 +68,16 @@ A non-exhaustive list of the basic game settings is given below:
 ### Environment
 The gym environment class [RoriEnv](gym-rori/gym_rori/envs/rori_env.py) contains the methods for the agents to interact with.
 
-In essence agents construct graphs of connected [single vertices](gym-rori/single_vertex.py) in the environment, which returns them sparse rewards.
+In essence agents construct graphs of connected [single vertices](gym-rori/single_vertex.py) in the environment, from which they receive sparse rewards in return.
 
-[Rewards](gym-rori/rewarders.py) depend on the set objective.
+Rewards depend on the set objective and [rewarder](gym-rori/rewarders.py). 
 
-A game terminates if a terminal state is reached, either by choice of the terminal action of the agent or by violation of a posteriori [rules](#rules).
+> **Note** You can add deploy your custom rewarder [here](gym-rori/rewarders.py).
+
+A game terminates if a terminal state is reached, either by choice of the terminal action of the agent or by violation of a posteriori foldability [conditions](#rules).
 
 ### Agents
-Agents can be human or artificial. We provide a list of standard search algorithms as artificial agents:
+Agents interact with the environment. They can be human or artificial. We provide a list of standard search algorithms as artificial agents.
 
 |       Agent               |   Search Algorithm                |
 |   :-----------            |   ---------------:                |
@@ -83,6 +87,8 @@ Agents can be human or artificial. We provide a list of standard search algorith
 | [MCTS](gym-rori/mcts.py)  | Monte Carlo Tree Search           |
 | [evolution](main.py)      | Evolutionary Search               |
 | [PPO](main.py)            | Proximal Policy Optimization (RL) |
+
+> **Note** You can add you own custom agent or search-algorithm in the [main](main.py).
 
 ### Rules
 <a href="#rules"></a>
