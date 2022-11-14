@@ -3,16 +3,16 @@ A **gym environment and commandline tool** for automating rigid origami crease p
 
 > **Note** We provide an introduction to the underlying principles of rigid origami and some practical use cases in our paper [Automating Rigid Origami Design](https://arxiv.com).
 
-We reformulate the rigid-origami problem as a board game: agents (players) interact with the rigid-origami **gym environment** (board) according to a set of rules which define an origami-specific problem. 
+We reformulate the rigid-origami problem as a board game, where an agent interacts with the rigid-origami **gym environment** according to a set of rules which define an origami-specific problem. 
 
 <figure>
-    <img src="/assets/method.png"
+    <img src="/assets/TeaserFigure.png"
          alt="The rigid origami game"
          height="200"
     />
 </figure>
 
-Figure: *The rigid origami game.*
+*Figure: The rigid origami game for shape-approximation. The target shape (a) approximated by an agent playing the game (b) to find a pattern (c) which in its folded state (d) approximates the target.*
 
 Our commandline tool comprises a set of agents (or classical search methods and algorithms) for 3D shape approximation, packaging, foldable funiture and more. Whereas the environment is not limited to these particular origami design challenges and agents. 
 
@@ -37,7 +37,7 @@ Next install the gym-environment.
 The environment is now all set up.
 
 ## Example
-We *play* the rigid-origami game for shape approximation. 
+We *play* the rigid-origami game for shape-approximation. 
 
 ```
 (rigid-origami) $ python main.py --objective=shape-approx --search-algorithm=RDM --num-steps=100000 --board-length=25 --num-symmetries=2 --optimize-psi  
@@ -45,21 +45,21 @@ We *play* the rigid-origami game for shape approximation.
 
 Adjust the game objective, agent, or any other conditions by setting specific options.
 
-> **Note** You can utilize the environment for different design tasks or objectives. You can add your custom reward function in the [rewarder](gym-rori/rewarders.py).
+> **Note** You can utilize the environment for different design tasks or objectives. You can also add a custom reward function in the [rewarder](gym-rori/rewarders.py).
 
 A non-exhaustive list of the basic game settings is given below.
 
-|  Option                       | Flag                | Value                                       |
-| -------------                 |-------------:       | :-----                                      |
-| **Name**                      | --name              | "Experiment 0"                              |
-| **Game objective**            | --objective         | shape-approx, packaging, chair, table, shelf|
-| **Agent**                     | --search-algorithm  | RDM, MCTS, evolution, PPO, DFTS, BFTS       |
-| **Number of env interactions**| --num-steps         | 1000                                        |
-| **Number of symmetry axes**   | --num-symmetries    | 1                                           |
-| **Board edge length**         | --board-length      | 25                                          |
-| **Seed pattern**              | --base              | simple                                      |
-| **Random seed**               | --seed              | 123                                         |
-| **Auto optimize fold angle**  | --optimize-psi      |                                             |
+|  Option                       | Flag                | Value                                           |
+| -------------                 |-------------:       | :-----                                          |
+| **Name**                      | --name              | *string*                                        |
+| **Game objective**            | --objective         | {shape-approx, packaging, chair, table, shelf}  |
+| **Agent**                     | --search-algorithm  | {RDM, MCTS, evolution, PPO, DFTS, BFTS}         |
+| **Number of env interactions**| --num-steps         | *int*                                           |
+| **Number of symmetry axes**   | --num-symmetries    | {0,1,2,3}                                       |
+| **Board edge length**         | --board-length      | *int*                                           |
+| **Seed pattern**              | --base              | {simple, simple-vert, single, quad}             |
+| **Random seed**               | --seed              | *int*                                           |
+| **Auto optimize fold angle**  | --optimize-psi      |                                                 |
 
 > **Note** The action- and configuration space complexity grows exponentially with the board size. On the contrary additional symmetries help reduce the complexity.
 
@@ -72,7 +72,7 @@ In essence agents construct graphs of connected [single vertices](gym-rori/singl
 
 Rewards depend on the set objective and [rewarder](gym-rori/rewarders.py). 
 
-> **Note** You can add deploy your custom rewarder [here](gym-rori/rewarders.py).
+> **Note** You can add deploy your custom [rewarder](gym-rori/rewarders.py). To make it run you also need to add and call your custom objective from the [main](main.py). 
 
 A game terminates if a terminal state is reached, either by choice of the terminal action of the agent or by violation of a posteriori foldability [conditions](#rules).
 
