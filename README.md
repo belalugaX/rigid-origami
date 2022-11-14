@@ -20,7 +20,7 @@ Our commandline tool comprises a set of agents (or classical search methods and 
 ## Installing
 > **Note** Before installing the dependencies, it is recommended that you setup a [conda virtual environment](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html).
 
-Setup and activate the conda environment using the rigid-origami/conda_rigid_ori_env.yml package list.
+Setup and activate the conda environment using the [conda_rigid_origami_env.yml](conda_rigid_origami_env.yml) package list.
 
 ```
 $ conda create --name=rigid-origami --file=conda_rigid_ori_env.yml
