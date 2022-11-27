@@ -1,7 +1,7 @@
 # Rigid-origami
 A **gym environment and commandline tool** for automating rigid origami crease pattern design. 
 
-> **Note** We provide an introduction to the underlying principles of rigid origami and some practical use cases in our paper [Automating Rigid Origami Design](https://arxiv.com).
+> **Note** We provide an introduction to the underlying principles of rigid origami and some practical use cases in our paper [Automating Rigid Origami Design](https://arxiv.org/abs/2211.13219).
 
 We reformulate the rigid-origami problem as a board game, where an agent interacts with the rigid-origami **gym environment** according to a set of rules which define an origami-specific problem. 
 
@@ -49,17 +49,37 @@ Adjust the game objective, agent, or any other conditions by setting specific op
 
 A non-exhaustive list of the basic game settings is given below.
 
-|  Option                       | Flag                | Value                                           |
-| -------------                 |-------------:       | :-----                                          |
-| **Name**                      | --name              | *string*                                        |
-| **Game objective**            | --objective         | {shape-approx, packaging, chair, table, shelf}  |
-| **Agent**                     | --search-algorithm  | {RDM, MCTS, evolution, PPO, DFTS, BFTS}         |
-| **Number of env interactions**| --num-steps         | *int*                                           |
-| **Number of symmetry axes**   | --num-symmetries    | {0,1,2,3}                                       |
-| **Board edge length**         | --board-length      | *int*                                           |
-| **Seed pattern**              | --base              | {simple, simple-vert, single, quad}             |
-| **Random seed**               | --seed              | *int*                                           |
-| **Auto optimize fold angle**  | --optimize-psi      |                                                 |
+|  Option                       | Flag                  | Value                                                 |   Default value   |
+| -------------                 |-------------:         | :-----                                                |   :---:           |
+| **Name**                      | --name                | *string*                                              |   "0"             |
+| **Number of env interactions**| --num-steps           | *int*                                                 |   500             |
+| **Game objective**            | --objective           | {shape-approx, packaging, chair, table, shelf, bucket}|   shape-approx    |
+| **Agent**                     | --search-algorithm    | {RDM, MCTS, evolution, PPO, DFTS, BFTS, human}        |   RDM             |
+| **Seed pattern**              | --base                | {plain, simple, simple-vert, single, quad}            |   plain           |
+| **Seed sequence**             | --start-sequence      | *list*                                                |   []              |
+| **Seed pattern size**         | --seed-pattern-size   | *int*                                                 |   2               |
+| **Board edge length**         | --board-length        | *int*                                                 |   13              |
+| **Number of symmetry axes**   | --num-symmetries      | {0,1,2,3}                                             |   2               |
+| **Maximum number of vertices**| --max-vertices        | *int*                                                 |   100             |
+| **(Max.) fold angle**         | --psi                 | *float*                                               |   3.14            |
+| **Auto optimize fold angle**  | --optimize-psi        |                                                       |   True            |
+| **Maximum crease length**     | --cl-max              | *float*                                               |   infinity        |
+| **Random seed**               | --seed                | *int*                                                 |   16711           |
+| **Allow source action**       | --allow-source-action | *string*                                              |   False           |
+| **Target**                    | --target              | *string*                                              |   "target.obj"    | 
+| **Target transform**          | --target-transform    | *transform*                                           |   [0,0,0]         | 
+| **Auto target mesh transform**| --auto-mesh-transform |                                                       |   False           |
+| **Count interior vertices**   | --count-interior      |                                                       |   False           |
+| **Mode**                      | --mode                | {TRAIN, DEBUG}                                        |   TRAIN           |
+| **Resume run**                | --resume              |                                                       |   False           |
+| **Local directory**           | --local-dir           | *string*                                              |   "cwd"           |
+| **Branching factor**          | --bf                  | *int*                                                 |   10              |
+| **Number of workers (RL)**    | --num-workers         | *int*                                                 |   0               |
+| **Training iterations RL)**   | --training-iteration  | *int*                                                 |   100             |
+| **Number of CPUs (RL)**       | --ray-num-cpus        | *int*                                                 |   1               |
+| **Number of GPUs (RL)**       | --ray-num-gpus        | *int*                                                 |   0               |
+| **Animation view**            | --anim-view           | *list*                                                |   [90, -90, 23]   |
+
 
 > **Note** The action- and configuration space complexity grows exponentially with the board size. On the contrary additional symmetries help reduce the complexity.
 
@@ -79,14 +99,14 @@ A game terminates if a terminal state is reached, either by choice of the termin
 ### Agents
 Agents interact with the environment. They can be human or artificial. We provide a list of standard search algorithms as artificial agents.
 
-|       Agent               |   Search Algorithm                |
-|   :-----------            |   ---------------:                |
-| [RDM](main.py)            | Uniform Random Search             |
-| [BFTS](gym-rori/bfts.py)  | Breadth First Tree Search         |
-| [DFTS](gym-rori/dfts.py)  | Depth First Tree Search           |
-| [MCTS](gym-rori/mcts.py)  | Monte Carlo Tree Search           |
-| [evolution](main.py)      | Evolutionary Search               |
-| [PPO](main.py)            | Proximal Policy Optimization (RL) |
+|       Agent               |   Search Algorithm                                    |
+|   :-----------            |   :---------------                                    |
+| [RDM](main.py)            | Uniform Random Search                                 |
+| [BFTS](gym-rori/bfts.py)  | Breadth First Tree Search                             |
+| [DFTS](gym-rori/dfts.py)  | Depth First Tree Search                               |
+| [MCTS](gym-rori/mcts.py)  | Monte Carlo Tree Search                               |
+| [evolution](main.py)      | Evolutionary Search                                   |
+| [PPO](main.py)            | Proximal Policy Optimization (Reinforcement Learning) |
 
 > **Note** You can add you own custom agent or search-algorithm in the [main](main.py).
 
@@ -102,7 +122,7 @@ A game can however reach a non-foldable state. A particular state is foldable if
 Any violation of the two conditions results in a terminal game state.
 
 ### Results
-The episodes (origami patterns) of highest return are documented in the results directory per experiment. For each best episode three files, a *.png* of the corresponding origami graph, folded shape *.obj* and animation *.gif* are stored.
+The best episodes (origami patterns) are documented in the results directory per experiment. For each best episode three files, a *PNG* of the corresponding origami graph, folded shape *OBJ* and animation *GIF* are stored.
 
 |       Origami Graph (Pattern)                     |   Folded Shape                                    |   Folding Animation
 |   :-----------:                                   |   :---------------:                               |   :---------------: 
