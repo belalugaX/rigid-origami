@@ -14,7 +14,9 @@ We reformulate the rigid-origami problem as a board game, where an agent interac
 
 *Figure: The rigid origami game for shape-approximation. The target shape (a) approximated by an agent playing the game (b) to find a pattern (c) which in its folded state (d) approximates the target.*
 
-Our commandline tool comprises a set of agents (or classical search methods and algorithms) for 3D shape approximation, packaging, foldable funiture and more. Whereas the environment is not limited to these particular origami design challenges and agents. 
+Our commandline tool comprises a set of agents (or classical search methods and algorithms) for 3D shape approximation, packaging, foldable funiture and more. 
+
+> **Note** The rigid-origami environment is not limited to these particular origami design challenges and agents. You can also deploy it on your own custom use case.
 
 
 ## Installing
