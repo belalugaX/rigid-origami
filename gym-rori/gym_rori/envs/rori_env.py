@@ -8,8 +8,6 @@ import gym,os
 from gym.spaces import Discrete, Box, Dict
 
 import trimesh
-from trimesh.exchange.obj import export_obj
-from trimesh.exchange.export import export_mesh
 
 import pickle
 import numpy as np
@@ -27,7 +25,6 @@ from build_scripts import build_pattern_from_decision_chain
 from plotting import plot_pattern, plot_polygons
 from geometric import get_folded_mesh_points
 from rewarders import shaped_hausdorff_distance_rewarder,reward_wrapper
-import time
 
 
 class RoriEnv(gym.Env):

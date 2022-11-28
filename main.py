@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+# ==================================================================
+# Author: Jeremia Geiger
+# Master Thesis: Reinforcement Learning for Rigid Origami
+# Supervisors: Oliver Richter, Karolis Martinkus, Roger Wattenhofer 
+# ETH Zürich, Distributed Computing Lab
+# July 2021
+# ==================================================================
+
 from gym_rori.envs.rori_env import RoriEnv
 from ray.tune.registry import register_env
 
@@ -290,11 +298,6 @@ def run_dfts(env_config,args):
             env.best_episode_reward,
             env.total_step_count,
             ctr]
-        # data.append(env.get_state_config())
-        # data.append(np.random.get_state())
-        # data.append(env.best_episode_reward)
-        # data.append(env.total_step_count)
-        # data.append(ctr)
         with open(save_dir+"/.env_state.ob", 'wb') as f:
             pickle.dump(data,f)
             f.close()
@@ -468,9 +471,12 @@ def run_RDM(env_config,args):
     best_ep_reward = - np.inf
 
     print(
+        "\n",
         "================================================================= \n",
         "Starting origami game with parameters: \n",
+        "----------------------------------------------------------------- \n",
         "OBJECTIVE:", args.objective, "\n", 
+        "SEARCH ALGORITHM:", args.search_algorithm, "\n", 
         "TOTAL-ENVIRONMENT-INTERACTIONS:",args.num_steps, "\n",
         "BOARD-SIZE:", args.board_length+1, "x", args.board_length+1, "\n",
         "SYMMETRY-AXES:", args.num_symmetries, "\n",

@@ -4,11 +4,7 @@ import os
 from copy import deepcopy
 import imageio.v2 as imageio
 from plotting import plot_polygons
-
-
-def build_pattern_from_decision_chain(env,action_list_o,board_size):
-    for action in action_list_o:
-        env.step(action)
+from build_scripts import build_pattern_from_decision_chain
 
 
 def generate_gif2(env_config,psi_max,pattern,resolution,view=[90,-90,23]):
