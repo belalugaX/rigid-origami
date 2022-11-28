@@ -1,9 +1,10 @@
-# a python implementation of Moeller's triangle-triangle intersection algorithm
-
+# a python implementation of Thomas Moeller's 
+# Fast Triangle-Triangle Intersection Test algorithm
+# https://web.stanford.edu/class/cs277/resources/papers/Moller1997b.pdf
+# Using this algorithm has been proposed by Luca Zimmermann in
+# https://www.research-collection.ethz.ch/handle/20.500.11850/420478
 
 import numpy as np
-
-
 
 def edge_edge_test(v0,u0,u1,Ax,Ay):
     """
