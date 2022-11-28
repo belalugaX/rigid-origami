@@ -30,41 +30,54 @@ with warnings.catch_warnings():
 def main():
 
     parser = argparse.ArgumentParser(description='Process environment config.')
-    parser.add_argument("--num-workers", default=0, type=int)
-    parser.add_argument("--training-iteration", default=100, type=int)
-    parser.add_argument("--ray-num-cpus", default=1, type=int)
-    parser.add_argument("--ray-num-gpus", default=0, type=int)
+    
+    parser.add_argument("--name", default="0",type=str)
+    parser.add_argument("--num-steps", default=500, type=int)
+    parser.add_argument("--objective", choices=[
+        'shape-approx', 
+        'packaging', 
+        'chair', 
+        'table', 
+        'shelf', 
+        'bucket'],
+        default='shape-approx')
     parser.add_argument("--search-algorithm", 
         choices=['RDM', 'DFTS', 'BFTS', 'MCTS', 'PPO', 'evolution', 'human'], 
         default="RDM", 
         type=str)
-    parser.add_argument("--num-steps", default=500, type=int)
-    parser.add_argument("--target", default="target.obj", type=str)
-    parser.add_argument("--target-transform", nargs='+', default=[0, 0, 0], type=float)
-    parser.add_argument("--num-symmetries", default=2, type=int)
-    parser.add_argument("--mode", default="TRAIN", type=str)
-    parser.add_argument("--max-vertices", default=100, type=int)
-    parser.add_argument("--board-length", default=12, type=int)
-    parser.add_argument("--psi", default=3.14, type=float)
     parser.add_argument("--base", 
         choices=["plain", "quad", "single", "simple", "simple_vert"], 
         default="plain", 
         type=str)
-    parser.add_argument("--cl-max", default=np.inf, type=float)
-    parser.add_argument("--optimize-psi", action='store_true', default=True)
-    parser.add_argument("--objective", choices=['shape-approx', 'packaging', 'chair', 'table', 'shelf', 'bucket'],
-                        default='shape-approx')
-    parser.add_argument("--anim-view", nargs='+', default=[90, -90, 23], type=float)
-    parser.add_argument("--count-interior", action='store_true', default=False)
-    parser.add_argument("--local-dir", default=os.getcwd(), type=str)
-    parser.add_argument("--allow-source-action", action='store_true', default=False)
-    parser.add_argument("--bf", default=10, type=int) # branching factor for tree searches
-    parser.add_argument("--seed", default=16711, type=int) # branching factor for tree searches
-    parser.add_argument("--auto-mesh-transform", action='store_true', default=False)
     parser.add_argument("--start-sequence", nargs='*', default=[])
     parser.add_argument("--seed-pattern-size", default=2, type=int)
+    parser.add_argument("--board-length", default=12, type=int)
+    parser.add_argument("--num-symmetries", default=2, type=int)
+    parser.add_argument("--max-vertices", default=100, type=int)
+    parser.add_argument("--psi", default=3.14, type=float)
+    parser.add_argument("--optimize-psi", action='store_true', default=True)
+    parser.add_argument("--cl-max", default=np.inf, type=float)
+    parser.add_argument("--seed", default=16711, type=int) # branching factor for tree searches
+    parser.add_argument("--allow-source-action", action='store_true', default=False)
+
+    parser.add_argument("--target", default="target.obj", type=str)
+    parser.add_argument("--target-transform", nargs='+', default=[0, 0, 0], type=float)
+    parser.add_argument("--auto-mesh-transform", action='store_true', default=False)
+    parser.add_argument("--count-interior", action='store_true', default=False)
+
+    parser.add_argument("--mode", default="TRAIN", type=str)
     parser.add_argument("--resume", action='store_true', default=False)
-    parser.add_argument("--name", default="0",type=str)
+    parser.add_argument("--local-dir", default=os.getcwd(), type=str)
+
+    parser.add_argument("--bf", default=10, type=int) # branching factor for tree searches
+
+    parser.add_argument("--num-workers", default=0, type=int)
+    parser.add_argument("--training-iteration", default=100, type=int)
+    parser.add_argument("--ray-num-cpus", default=1, type=int)
+    parser.add_argument("--ray-num-gpus", default=0, type=int)
+    
+    parser.add_argument("--anim-view", nargs='+', default=[90, -90, 23], type=float)
+
 
     args = parser.parse_args()
 
